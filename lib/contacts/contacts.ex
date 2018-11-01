@@ -1,4 +1,15 @@
 defmodule Contacts.Contact do
+  @moduledoc """
+  Schema for Contact Repo
+
+  email: Email of the contact (required, primary_key)
+  name: Name of the contact (required)
+  surname: Surname of the contact (required)
+  phone_number: Movil/Home phone of the contact
+  active: Mark the contact to be deleted by the garbage collector (required)
+  
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -19,4 +30,3 @@ defmodule Contacts.Contact do
   end
 
 end
-  

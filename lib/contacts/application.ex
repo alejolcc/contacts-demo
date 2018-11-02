@@ -10,6 +10,7 @@ defmodule Contacts.Application do
     children = [
       # Starts a worker by calling: Contacts.Worker.start_link(arg)
       # {Contacts.Worker, arg},
+      {Contacts.Repo, []},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

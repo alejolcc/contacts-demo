@@ -1,35 +1,38 @@
 defmodule Contacts.Router do
   use Plug.Router
 
+  alias Contacts.Controler
+
   # TODO: add logs
 
   plug :match
+  plug Plug.Parsers,  parsers: [:json],
+                      pass:  ["application/json"],
+                      json_decoder: Poison
   plug :dispatch
 
   get "/contacts" do
-    Contacts.Controler.index(conn, conn.params)
+    Controler.index(conn, conn.params)
   end
 
   post "/contacts" do
-    send_resp(conn, 200, "create a contact")
+    Controler.create(conn, conn.body_params)
   end
 
   get "/contacts/:email" do
-    send_resp(conn, 200, "get a contact")
+    Controler.show(conn, email)
   end
 
   put "/contacts/:email" do
-    send_resp(conn, 200, "update a contact")
+    Controler.update(conn, email, conn.body_params)
   end
 
   delete "/contacts/:email" do
-    send_resp(conn, 200, "mark to delete a contact")
+    Controler.delete(conn, email)
   end
-
-  # forward "/users", to: UsersRouter
 
   # TODO: Search for a correct manage for an error
   match _ do
-    send_resp(conn, 404, "error not found")
+    send_resp(conn, 404, "error")
   end
 end

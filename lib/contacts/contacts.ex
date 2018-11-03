@@ -29,8 +29,7 @@ defmodule Contacts.Contact do
     |> cast(params, @fields)
     |> validate_required([:email, :name, :surname, :active])
     |> validate_format(:email, ~r/@/)
-    |> unique_constraint(:email)
-    |> Poison.encode
+    |> unique_constraint(:email, name: :contacts_pkey)
   end
 
 end

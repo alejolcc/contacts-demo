@@ -8,7 +8,7 @@ defmodule Contacts.Controler do
 
   # TODO: manage error/nil cases
 
-  @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t() | no_return()
+  @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t() | no_return()
   def index(conn, params) do
     res = Queries.list_contact()
     conn

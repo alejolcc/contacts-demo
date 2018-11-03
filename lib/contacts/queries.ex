@@ -2,6 +2,7 @@ defmodule Contacts.Queries do
   @moduledoc """
   Module to interact with Database through Ecto Repo and Contact schema
   """
+  # TODO: Add logs
 
   import Ecto.Query, warn: true
   alias Contacts.Contact

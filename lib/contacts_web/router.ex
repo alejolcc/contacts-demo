@@ -7,7 +7,7 @@ defmodule Contacts.Router do
   plug :dispatch
 
   get "/contacts" do
-    send_resp(conn, 200, "list contacts")
+    Contacts.Controler.index(conn, conn.params)
   end
 
   post "/contacts" do

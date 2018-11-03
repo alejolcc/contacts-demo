@@ -11,6 +11,7 @@ defmodule Contacts.Application do
       # Starts a worker by calling: Contacts.Worker.start_link(arg)
       # {Contacts.Worker, arg},
       {Contacts.Repo, []},
+      Contacts.Tasks,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

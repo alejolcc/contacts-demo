@@ -2,10 +2,10 @@ defmodule Contacts.Contact do
   @moduledoc """
   Schema for Contact Repo
 
-  email: Email of the contact (required, primary_key)
-  name: Name of the contact (required)
-  surname: Surname of the contact (required)
-  phone_number: Movil/Home phone of the contact
+  email: Email of the contact (required, primary_key)\n
+  name: Name of the contact (required)\n
+  surname: Surname of the contact (required)\n
+  phone_number: Movil/Home phone of the contact\n
   active: Mark the contact to be deleted by the garbage collector (required)
   
   """

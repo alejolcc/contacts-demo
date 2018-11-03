@@ -1,13 +1,15 @@
 defmodule Contacts.MyTest do
+  @moduledoc false
+
   use ExUnit.Case, async: true
 
+  alias Contacts.Contact
   alias Contacts.Queries
   alias Contacts.Repo
-  alias Contacts.Contact
-
 
   defp create(attrs) do
-    Contact.changeset(%Contact{}, attrs) 
+    %Contact{}
+    |>Contact.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -19,7 +21,7 @@ defmodule Contacts.MyTest do
     [{:ok, user1}, {:ok, user2}] = Enum.map(users, &create(&1))
     {:ok, %{user1: user1, user2: user2}}
   end
-  
+
   test "create_contact", _context do
     contact = %{name: "Nicolas", email: "nico@example", surname: "Doe"}
 
@@ -27,37 +29,40 @@ defmodule Contacts.MyTest do
 
     res = Repo.get(Contact, "nico@example")
     assert res != nil
-  end 
+  end
 
   test "create_contact_fail", _context do
     contact = %{email: "nico@example", surname: "Doe", phone_number: "+549111234567"}
 
     assert {:error, _} = Queries.create_contact(contact)
     res = Repo.get(Contact, "nico@example")
-    assert nil == res 
-  end 
+    assert nil == res
+  end
 
   test "mark_as_delete", context do
     user1 = context.user1
 
     assert {:ok, c} = Queries.mark_as_delete(user1.email)
     assert c.active == false
-  end 
+  end
 
   test "mark_as_delete_with_non-existent", _context do
     assert {:ok, %{}} = Queries.mark_as_delete("bad@email")
-  end 
+  end
 
   test "delete_marked_contacts", context do
     user1 = context.user1
-    c = Repo.get(Contact, user1.email)
-    Contact.changeset(c, %{active: "false"}) |> Repo.update()
+    contact = Repo.get(Contact, user1.email)
+
+    contact
+    |> Contact.changeset(%{active: "false"})
+    |> Repo.update()
 
     Queries.delete_marked_contacts()
 
     res = Repo.get(Contact, user1.email)
-    assert nil == res 
-  end 
+    assert nil == res
+  end
 
   test "update_contact", context do
     user1 = context.user1
@@ -68,13 +73,13 @@ defmodule Contacts.MyTest do
 
     c1 = Repo.get(Contact, user1.email)
     assert "alejo" == c1.name
-  end 
+  end
 
   test "list_contact", context do
 
     user1 = context.user1
     user2 = context.user2
-    
+
     res = Queries.list_contact()
 
     assert 2 ==  length res
@@ -82,8 +87,8 @@ defmodule Contacts.MyTest do
 
     assert user1.name == c1.name
     assert user2.name == c2.name
-  end 
-  
+  end
+
   test "get_contact", context do
 
     user1 = context.user1
@@ -91,6 +96,6 @@ defmodule Contacts.MyTest do
     c = Queries.get_contact(user1.email)
 
     assert user1.name == c.name
-  end 
-  
+  end
+
 end

@@ -7,8 +7,16 @@ defmodule Contacts.MixProject do
       version: "0.1.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: ExCoveralls],
       deps: deps(),
-      dialyzer: [plt_add_deps: :apps_direct],
+      dialyzer: [plt_add_deps: :transitive],
+      aliases: aliases(),
+    ]
+  end
+
+  defp aliases do
+    [ 
+     test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 
@@ -24,11 +32,10 @@ defmodule Contacts.MixProject do
   defp deps do
     [
       {:postgrex, ">= 0.11.1"},
-      {:dialyxir, "~> 1.0.0-rc.3", only: [:dev], runtime: false},
+      {:excoveralls, "~> 0.10", only: :test},
+      {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},      
       {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false},
       {:ecto, "~> 2.2"}
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
     ]
   end
 end

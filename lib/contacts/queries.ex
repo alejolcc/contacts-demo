@@ -31,7 +31,7 @@ defmodule Contacts.Queries do
     Contact
     |> Repo.get(email)
     |> Contact.changeset(attrs)
-    |> Repo.update!()
+    |> Repo.update()
   end
 
   @spec list_contact() :: [Ecto.Schema.t()] | no_return()

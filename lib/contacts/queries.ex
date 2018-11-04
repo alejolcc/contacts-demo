@@ -2,6 +2,7 @@ defmodule Contacts.Queries do
   @moduledoc """
   Module to interact with Database through Ecto Repo and Contact schema
   """
+  # TODO: Add logs
 
   import Ecto.Query, warn: true
   alias Contacts.Contact
@@ -28,12 +29,11 @@ defmodule Contacts.Queries do
     mark_as_delete("john@example.com")
 
   """
-  @spec mark_as_delete(binary()) :: {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
+  @spec mark_as_delete(binary()) :: {:ok, Ecto.Schema.t()} | nil | {:error, Ecto.Changeset.t()}
   def mark_as_delete(email) do
-    Contact
-    |> Repo.get(email)
     case Repo.get(Contact, email) do
-      nil -> {:ok, %{}}
+      nil -> 
+        nil
       contact ->
         contact
         |> Contact.changeset(%{active: "false"})
@@ -56,12 +56,16 @@ defmodule Contacts.Queries do
     update_contact("john@example.com", %{name: Cameron})
 
   """
-  @spec update_contact(binary(), map()) :: {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
+  @spec update_contact(binary(), map()) :: {:ok, Ecto.Schema.t()} | nil | {:error, Ecto.Changeset.t()}
   def update_contact(email, attrs) do
-    Contact
-    |> Repo.get(email)
-    |> Contact.changeset(attrs)
-    |> Repo.update()
+    case Repo.get(Contact, email) do
+      nil ->
+        nil
+      contact ->
+        contact
+        |> Contact.changeset(attrs)
+        |> Repo.update()
+    end
   end
 
   @doc """

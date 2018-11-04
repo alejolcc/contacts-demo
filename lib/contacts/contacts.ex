@@ -13,7 +13,10 @@ defmodule Contacts.Contact do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @fields [:name, :email, :surname, :phone_number, :active]
+
   @primary_key {:email, :string, autogenerate: false}
+  @derive {Poison.Encoder, only: @fields}
   schema "contacts" do
     field :name, :string
     field :surname, :string
@@ -23,10 +26,10 @@ defmodule Contacts.Contact do
 
   def changeset(data, params \\ %{}) do
     data
-    |> cast(params, [:email, :name, :surname, :phone_number, :active])
+    |> cast(params, @fields)
     |> validate_required([:email, :name, :surname, :active])
     |> validate_format(:email, ~r/@/)
-    |> unique_constraint(:email)
+    |> unique_constraint(:email, name: :contacts_pkey)
   end
 
 end

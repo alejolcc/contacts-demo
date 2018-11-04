@@ -23,7 +23,7 @@ defmodule Contacts.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :postgrex, :ecto],
+      extra_applications: [:logger, :postgrex, :ecto, :plug_cowboy],
       mod: {Contacts.Application, []}
     ]
   end
@@ -35,7 +35,9 @@ defmodule Contacts.MixProject do
       {:excoveralls, "~> 0.10", only: :test},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},      
       {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false},
-      {:ecto, "~> 2.2"}
+      {:ecto, "~> 2.2"},
+      {:plug_cowboy, "~> 2.0"},
+      {:poison, "~> 3.1"}
     ]
   end
 end

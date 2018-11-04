@@ -7,3 +7,5 @@ config :contacts, Contacts.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost"
+
+config :contacts, garbage_collector_interval: 600_00

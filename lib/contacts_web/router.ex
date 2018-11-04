@@ -32,7 +32,7 @@ defmodule Contacts.Router do
   end
 
   # TODO: Search for a correct manage for an error
-  match _ do
-    send_resp(conn, 404, "error")
+  match "/contacts" do
+    send_resp(conn, 405, "")
   end
 end

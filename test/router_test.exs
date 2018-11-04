@@ -47,7 +47,7 @@ defmodule Contacts.RouterTest do
   end
 
   test "create", context do
-    
+
     attrs = %{name: "Nicolas", surname: "Doe",
               phone_number: "123", email: "nico@example"}
               |> Poison.encode!()
@@ -63,7 +63,7 @@ defmodule Contacts.RouterTest do
     assert conn.state == :sent
     assert conn.status == 200
     assert expected == response
-  
+
   end
 
   test "show", context do
@@ -123,4 +123,66 @@ defmodule Contacts.RouterTest do
 
   end
 
+  ################
+  # ERROR CASES
+  ################
+
+  test "create_fail", context do
+
+    # Send attrs without name
+    attrs = %{surname: "Doe", phone_number: "123", email: "nico@example"}
+            |> Poison.encode!()
+
+    conn = conn("post", "/contacts", attrs) |> put_req_header("content-type", "application/json")
+    conn = Router.call(conn, @opts)
+
+    assert conn.state == :sent
+    assert conn.status == 400
+
+  end
+
+  test "show_non-existent", context do
+
+    conn = conn(:get, "/contacts/bad@email.com")
+    conn = Router.call(conn, @opts)
+
+    assert conn.state == :sent
+    assert conn.status == 404
+
+  end
+
+  test "update_fail", context do
+
+    attrs = %{email: "bad_email"} |> Poison.encode!()
+
+    conn = conn("put", "/contacts/john@example.com", attrs) |> put_req_header("content-type", "application/json")
+    conn = Router.call(conn, @opts)
+
+    assert conn.state == :sent
+    assert conn.status == 400
+
+  end
+
+  test "update_non-existent", context do
+
+    attrs = %{name: "Nicolas", surname: "Rios", phone_number: "123"}
+            |> Poison.encode!()
+
+    conn = conn("put", "/contacts/non-existent@example.com", attrs) |> put_req_header("content-type", "application/json")
+    conn = Router.call(conn, @opts)
+
+    assert conn.state == :sent
+    assert conn.status == 404
+
+  end
+
+  test "delete_non-existent", context do
+
+    conn = conn(:delete, "/contacts/non-existent@example.com")
+    conn = Router.call(conn, @opts)
+
+    assert conn.state == :sent
+    assert conn.status == 404
+
+  end
 end

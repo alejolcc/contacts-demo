@@ -8,4 +8,4 @@ config :contacts, Contacts.Repo,
   password: "postgres",
   hostname: "localhost"
 
-config :contacts, garbage_collector_interval: 600_00
+config :contacts, garbage_collector_interval: 60_000

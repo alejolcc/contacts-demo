@@ -1,6 +1,6 @@
 defmodule Contacts.Controler do
   @moduledoc """
-  Controller module to interact with backend 
+  Controller module to interact with the backend
   """
   import Plug.Conn
 
@@ -8,15 +8,21 @@ defmodule Contacts.Controler do
 
   # TODO: add logs
 
+  @doc """
+  List contacts
+  """
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t() | no_return()
-  def index(conn, params) do
+  def index(conn, _params) do
     res = Queries.list_contact()
     conn
     |> put_resp_content_type("application/json")
     |> send_resp(200, Poison.encode!(res))
   end
 
-  # 400 bad request
+  @doc """
+  Create a contact
+  Throw 400 if try to create a contact with invalid data
+  """
   @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t() | no_return()
   def create(conn, attrs) do
     case Queries.create_contact(attrs) do
@@ -29,7 +35,10 @@ defmodule Contacts.Controler do
     end
   end
 
-  # 404 not found
+  @doc """
+  Get a contact
+  Throw 404 if contact not exists
+  """
   @spec show(Plug.Conn.t(), binary()) :: Plug.Conn.t() | no_return()
   def show(conn, email) do
     case Queries.get_contact(email) do
@@ -42,7 +51,11 @@ defmodule Contacts.Controler do
     end
   end
 
-  # 404 not found / 400 bad request
+  @doc """
+  Update a contact
+  Throw 400 if try to update a contact with invalid data
+        404 if contact not exist
+  """
   @spec update(Plug.Conn.t(), binary(), map()) :: Plug.Conn.t() | no_return()
   def update(conn, email, attrs) do
     case Queries.update_contact(email, attrs) do
@@ -57,7 +70,10 @@ defmodule Contacts.Controler do
     end
   end
 
-  # 404 not found
+  @doc """
+  Delete a contact
+  Throw 404 if contact not exist
+  """
   @spec delete(Plug.Conn.t(), binary()) :: Plug.Conn.t() | no_return()
   def delete(conn, email) do
     case Queries.mark_as_delete(email) do
@@ -75,7 +91,7 @@ defmodule Contacts.Controler do
     |> send_resp(404, "Not found")
   end
 
-  defp handle_error(conn, 400, errors) do
+  defp handle_error(conn, 400, _errors) do
     conn
     |> put_resp_header("content-type", "application/json")
     |> send_resp(400, "")

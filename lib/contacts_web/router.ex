@@ -1,4 +1,7 @@
 defmodule Contacts.Router do
+  @moduledoc """
+  Router module to send the http request to controler
+  """
   use Plug.Router
 
   alias Contacts.Controler
@@ -31,7 +34,6 @@ defmodule Contacts.Router do
     Controler.delete(conn, email)
   end
 
-  # TODO: Search for a correct manage for an error
   match "/contacts" do
     send_resp(conn, 405, "")
   end

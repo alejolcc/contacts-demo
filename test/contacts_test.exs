@@ -47,7 +47,7 @@ defmodule Contacts.MyTest do
   end
 
   test "mark_as_delete_with_non-existent", _context do
-    assert {:ok, %{}} = Queries.mark_as_delete("bad@email")
+    assert nil == Queries.mark_as_delete("bad@email")
   end
 
   test "delete_marked_contacts", context do
@@ -92,7 +92,6 @@ defmodule Contacts.MyTest do
   test "get_contact", context do
 
     user1 = context.user1
-
     c = Queries.get_contact(user1.email)
 
     assert user1.name == c.name

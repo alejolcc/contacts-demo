@@ -16,6 +16,7 @@ defmodule Contacts.Controler do
     |> send_resp(200, Poison.encode!(res))
   end
 
+  # 400 bad request
   @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t() | no_return()
   def create(conn, attrs) do
     case Queries.create_contact(attrs) do
@@ -24,18 +25,24 @@ defmodule Contacts.Controler do
         |> put_resp_content_type("application/json")
         |> send_resp(200, Poison.encode!(res))
       {:error, changeset} ->
-        handle_error(conn, changeset.errors)
+        handle_error(conn, 400, changeset)
     end
   end
 
+  # 404 not found
   @spec show(Plug.Conn.t(), binary()) :: Plug.Conn.t() | no_return()
   def show(conn, email) do
-    res = Queries.get_contact(email)
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, Poison.encode!(res))
+    case Queries.get_contact(email) do
+      nil -> 
+        handle_error(conn, 404, nil)
+      res ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(200, Poison.encode!(res))
+    end
   end
 
+  # 404 not found / 400 bad request
   @spec update(Plug.Conn.t(), binary(), map()) :: Plug.Conn.t() | no_return()
   def update(conn, email, attrs) do
     case Queries.update_contact(email, attrs) do
@@ -44,10 +51,13 @@ defmodule Contacts.Controler do
         |> put_resp_content_type("application/json")
         |> send_resp(200, Poison.encode!(res))
       {:error, changeset} ->
-        handle_error(conn, changeset.errors)
+        handle_error(conn, 400, changeset.errors)
+      nil ->
+        handle_error(conn, 404, nil)
     end
   end
 
+  # 404 not found
   @spec delete(Plug.Conn.t(), binary()) :: Plug.Conn.t() | no_return()
   def delete(conn, email) do
     Queries.mark_as_delete(email)
@@ -57,9 +67,9 @@ defmodule Contacts.Controler do
     |> send_resp(204, "")
   end
 
-  defp handle_error(conn, error) do
+  defp handle_error(conn, code, error) do
     IO.inspect error
-    send_resp(conn, 404, "error from controler")
+    send_resp(conn, code, "error from controler")
   end
 
 end

@@ -2,7 +2,7 @@ use Mix.Config
 
 config :contacts, Contacts.Repo,
   adapter: Ecto.Adapters.Postgres,
-  database: "contacts_repo",
+  database: "contacts_prod",
   username: "postgres",
   password: "postgres",
   hostname: "localhost"

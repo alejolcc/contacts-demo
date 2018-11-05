@@ -33,10 +33,10 @@ defmodule Contacts.RouterTest do
     user1 = context.user1
     user2 = context.user2
 
-    expected = [%{"name" => user1.name, "email" => user1.email, "active" => true,
-                  "surname" => user1.surname, "phone_number" => user1.phone_number},
-                %{"name" => user2.name, "email" => user2.email, "active" => true,
-                  "surname" => user2.surname, "phone_number" => user2.phone_number}]
+    expected = [%{"name" => user2.name, "email" => user2.email, "active" => true,
+                  "surname" => user2.surname, "phone_number" => user2.phone_number},
+                %{"name" => user1.name, "email" => user1.email, "active" => true,
+                  "surname" => user1.surname, "phone_number" => user1.phone_number}]
 
     response = conn.resp_body |> Poison.decode!()
 

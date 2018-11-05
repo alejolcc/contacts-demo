@@ -12,8 +12,8 @@ defmodule Contacts.Controler do
   List contacts
   """
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t() | no_return()
-  def index(conn, _params) do
-    res = Queries.list_contact()
+  def index(conn, params) do
+    res = Queries.list_contact(params)
     conn
     |> put_resp_content_type("application/json")
     |> send_resp(200, Poison.encode!(res))

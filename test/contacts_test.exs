@@ -80,13 +80,14 @@ defmodule Contacts.MyTest do
     user1 = context.user1
     user2 = context.user2
 
-    res = Queries.list_contact()
+    res = Queries.list_contact(%{})
 
     assert 2 ==  length res
     [c1, c2] = res
 
-    assert user1.name == c1.name
-    assert user2.name == c2.name
+    # The query return in inverse order
+    assert user2.name == c1.name
+    assert user1.name == c2.name
   end
 
   test "get_contact", context do

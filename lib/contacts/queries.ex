@@ -70,6 +70,15 @@ defmodule Contacts.Queries do
 
   @doc """
   Return a list of contacts
+  Accept params for filter and sort
+
+  ## Params
+    {field name}: filter the search by field value
+    _ord: allow to order by asc or desc, default: asc
+    _sort: allow especifie a field to sort by, default: `email`
+
+  ## Example
+    list_contact(%{"_ord" => "desc", "_sort" => "name", "surname" => "Doe"})
   """
 
   @spec list_contact(map()) :: [Ecto.Schema.t()] | no_return()
@@ -94,23 +103,39 @@ defmodule Contacts.Queries do
     Repo.one(query)
   end
 
+  ######################
+  # Private Functions
+  ######################
+
+  # Return the query filter expresion form query params
+  # If field doesnt exist ignore the filter
   defp get_filters(params) do
-    fields = Contact.__schema__(:fields)
     params
-    |> Enum.filter(fn {x, _} -> !String.starts_with?(x, "_") and String.to_atom(x) in fields end)
+    |> Enum.filter(fn {x, _} -> !String.starts_with?(x, "_") and is_field?(x) end)
     |> Enum.map(fn {k, v} -> {String.to_atom(k), v} end)
   end
 
+  # Return the query expresion for sort asc or desc depends of query param _ord
+  # If ord value incorrect does nothing
   defp get_order(params) do
     params
     |> Map.get("_ord", "asc")
     |>String.to_atom
   end
 
+  # Return the query to order_by value especified with _sort
+  # If value is not a field return the query expresion to order_by `email`
   defp get_order_key(params) do
-    params
-    |> Map.get("_order_by", "email")
-    |>String.to_atom
+    value = Map.get(params, "_sort", "email")
+    case is_field?(value) do
+      true -> String.to_atom(value)
+      _ -> :email
+    end
   end
 
+  # Check if a value is a field of Contact schema
+  defp is_field?(value) do
+    fields = Contact.__schema__(:fields)
+    String.to_atom(value) in fields
+  end
 end

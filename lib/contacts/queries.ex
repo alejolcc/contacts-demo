@@ -71,9 +71,17 @@ defmodule Contacts.Queries do
   @doc """
   Return a list of contacts
   """
-  @spec list_contact() :: [Ecto.Schema.t()] | no_return()
-  def list_contact do
-    query = from c in Contact, where: c.active == true
+
+  @spec list_contact(map()) :: [Ecto.Schema.t()] | no_return()
+  def list_contact(params) do
+    filters = get_filters(params) ++ [active: true]
+    order_key = get_order_key(params)
+
+    query = case get_order(params) do
+      :desc-> from(c in Contact, where: ^filters, order_by: [desc: ^order_key])
+      _ ->    from(c in Contact, where: ^filters, order_by: [asc: ^order_key])
+    end
+
     Repo.all(query)
   end
 
@@ -84,6 +92,25 @@ defmodule Contacts.Queries do
   def get_contact(email) do
     query = from c in Contact, where: c.active == true and c.email == ^email
     Repo.one(query)
+  end
+
+  defp get_filters(params) do
+    fields = Contact.__schema__(:fields)
+    params
+    |> Enum.filter(fn {x, _} -> !String.starts_with?(x, "_") and String.to_atom(x) in fields end)
+    |> Enum.map(fn {k, v} -> {String.to_atom(k), v} end)
+  end
+
+  defp get_order(params) do
+    params
+    |> Map.get("_ord", "asc")
+    |>String.to_atom
+  end
+
+  defp get_order_key(params) do
+    params
+    |> Map.get("_order_by", "email")
+    |>String.to_atom
   end
 
 end

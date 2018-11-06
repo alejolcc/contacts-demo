@@ -4,10 +4,12 @@ defmodule Contacts.Application do
   use Application
 
   def start(_type, _args) do
+    port = Application.get_env(:contacts, :port)
+
     children = [
       {Contacts.Repo, []},
       Contacts.Tasks,
-      Plug.Cowboy.child_spec(scheme: :http, plug: Contacts.Router, options: [port: 4001])
+      Plug.Cowboy.child_spec(scheme: :http, plug: Contacts.Router, options: [port: port])
     ]
 
     opts = [strategy: :one_for_one, name: Contacts.Supervisor]

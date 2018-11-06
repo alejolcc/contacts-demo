@@ -3,16 +3,16 @@ defmodule Contacts.Controler do
   Controller module to interact with the backend
   """
   import Plug.Conn
-
+  require Logger
   alias Contacts.Queries
-
-  # TODO: add logs
+  alias Contacts.Utils
 
   @doc """
   List contacts
   """
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t() | no_return()
   def index(conn, params) do
+    Utils.debug "[#{inspect(__MODULE__)}] Call index function #{inspect(conn)}"
     res = Queries.list_contact(params)
     conn
     |> put_resp_content_type("application/json")
@@ -25,12 +25,14 @@ defmodule Contacts.Controler do
   """
   @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t() | no_return()
   def create(conn, attrs) do
+    Utils.debug "[#{inspect(__MODULE__)}] Call create function #{inspect(conn)}"
     case Queries.create_contact(attrs) do
       {:ok, res} ->
         conn
         |> put_resp_content_type("application/json")
         |> send_resp(200, Poison.encode!(res))
       {:error, changeset} ->
+        Utils.warn "[#{inspect(__MODULE__)}] Call create function with bad params #{inspect(changeset)}"
         handle_error(conn, 400, changeset.errors)
     end
   end
@@ -41,6 +43,7 @@ defmodule Contacts.Controler do
   """
   @spec show(Plug.Conn.t(), binary()) :: Plug.Conn.t() | no_return()
   def show(conn, email) do
+    Utils.debug "[#{inspect(__MODULE__)}] Call show function #{inspect(conn)}"
     case Queries.get_contact(email) do
       nil ->
         handle_error(conn, 404, nil)
@@ -58,6 +61,7 @@ defmodule Contacts.Controler do
   """
   @spec update(Plug.Conn.t(), binary(), map()) :: Plug.Conn.t() | no_return()
   def update(conn, email, attrs) do
+    Utils.debug "[#{inspect(__MODULE__)}] Call update function #{inspect(conn)}"
     case Queries.update_contact(email, attrs) do
       nil ->
         handle_error(conn, 404, nil)
@@ -66,6 +70,7 @@ defmodule Contacts.Controler do
         |> put_resp_content_type("application/json")
         |> send_resp(200, Poison.encode!(res))
       {:error, changeset} ->
+        Utils.warn "[#{inspect(__MODULE__)}] Call update function with bad params #{inspect(changeset)}"
         handle_error(conn, 400, changeset.errors)
     end
   end
@@ -76,6 +81,7 @@ defmodule Contacts.Controler do
   """
   @spec delete(Plug.Conn.t(), binary()) :: Plug.Conn.t() | no_return()
   def delete(conn, email) do
+    Utils.debug "[#{inspect(__MODULE__)}] Call delete function #{inspect(conn)}"
     case Queries.mark_as_delete(email) do
       nil ->
         handle_error(conn, 404, nil)

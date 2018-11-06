@@ -2,6 +2,8 @@ defmodule Contacts.Tasks do
   @moduledoc """
   Module to implement cronn task
   """
+  require Logger
+  alias Contacts.Utils
 
   use Task
   alias Contacts.Queries
@@ -14,7 +16,7 @@ defmodule Contacts.Tasks do
   Remove contacts marked to delete with a configured interval `garbage_collector_interval`
   """
   def clean_db do
-    IO.puts "Cleaning Db"
+    Utils.debug "Cleaning Database"
     interval = Application.get_env(:contacts, :garbage_collector_interval)
 
     receive do

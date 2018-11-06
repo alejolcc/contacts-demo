@@ -2,9 +2,12 @@ defmodule Contacts.Queries do
   @moduledoc """
   Module to interact with Database through Ecto Repo and Contact schema
   """
-  # TODO: Add logs
+
+  require Logger
+  alias Contacts.Utils
 
   import Ecto.Query, warn: true
+
   alias Contacts.Contact
   alias Contacts.Repo
 
@@ -17,6 +20,7 @@ defmodule Contacts.Queries do
   """
   @spec create_contact(map()) :: {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
   def create_contact(attrs) do
+    Utils.debug "[#{inspect(__MODULE__)}] Creating a contact attrs: #{inspect(attrs)}"
     %Contact{}
     |> Contact.changeset(attrs)
     |> Repo.insert()
@@ -32,9 +36,11 @@ defmodule Contacts.Queries do
   @spec mark_as_delete(binary()) :: {:ok, Ecto.Schema.t()} | nil | {:error, Ecto.Changeset.t()}
   def mark_as_delete(email) do
     case Repo.get(Contact, email) do
-      nil -> 
+      nil ->
+        Utils.warn "[#{inspect(__MODULE__)}] Trying to delete a nonexistent contact: #{email}"
         nil
       contact ->
+        Utils.debug "[#{inspect(__MODULE__)}] Mark to delete contact: #{email}"
         contact
         |> Contact.changeset(%{active: "false"})
         |> Repo.update()
@@ -60,8 +66,10 @@ defmodule Contacts.Queries do
   def update_contact(email, attrs) do
     case Repo.get(Contact, email) do
       nil ->
+        Utils.warn "[#{inspect(__MODULE__)}] Trying to update a nonexistent contact #{email}"
         nil
       contact ->
+        Utils.debug "[#{inspect(__MODULE__)}] Update to contact: #{email} attrs: #{inspect(attrs)}"
         contact
         |> Contact.changeset(attrs)
         |> Repo.update()
@@ -83,6 +91,7 @@ defmodule Contacts.Queries do
 
   @spec list_contact(map()) :: [Ecto.Schema.t()] | no_return()
   def list_contact(params) do
+    Utils.debug "[#{inspect(__MODULE__)}] Listing contacts params: #{inspect(params)}"
     filters = get_filters(params) ++ [active: true]
     order_key = get_order_key(params)
 
@@ -90,7 +99,7 @@ defmodule Contacts.Queries do
       :desc-> from(c in Contact, where: ^filters, order_by: [desc: ^order_key])
       _ ->    from(c in Contact, where: ^filters, order_by: [asc: ^order_key])
     end
-
+    Utils.debug "[#{inspect(__MODULE__)}] Query: #{inspect(query)}"
     Repo.all(query)
   end
 
@@ -99,6 +108,7 @@ defmodule Contacts.Queries do
   """
   @spec get_contact(binary()) :: Ecto.Schema.t() | nil | no_return()
   def get_contact(email) do
+    Utils.debug "[#{inspect(__MODULE__)}] Fetch contact: #{email}"
     query = from c in Contact, where: c.active == true and c.email == ^email
     Repo.one(query)
   end

@@ -1,12 +1,16 @@
 defmodule Contacts.MyTest do
   @moduledoc false
 
+  require Logger
+  require Contacts.Utils
+
   use ExUnit.Case, async: true
 
   alias Contacts.Contact
   alias Contacts.Queries
   alias Contacts.Repo
 
+  
   defp create(attrs) do
     %Contact{}
     |>Contact.changeset(attrs)

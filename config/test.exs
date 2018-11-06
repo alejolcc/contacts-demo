@@ -8,4 +8,5 @@ config :contacts, Contacts.Repo,
   password: "postgres",
   hostname: "localhost"
 
+config :logger, compile_time_purge_level: :debug
 config :contacts, garbage_collector_interval: 60_000

@@ -6,8 +6,6 @@ defmodule Contacts.Router do
 
   alias Contacts.Controler
 
-  # TODO: add logs
-
   plug :match
   plug Plug.Parsers,  parsers: [:json],
                       pass:  ["application/json"],

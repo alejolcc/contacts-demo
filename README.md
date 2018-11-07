@@ -1,10 +1,10 @@
 # Contacts
 
-A sample REST app that implement a CRUD API
+A sample REST app that implements a CRUD API
 
 ## About
 
-This is a demo project for educational purpouses.
+This is a demo project for educational purposes.
 Implement an application built over Cowboy server through Plug adapters, and Ecto framework like wrappers around the data store. In this case the data store is a Postgres database.
 
 We use Cowboy because is the defacto and most used HTTP server for Erlang/OTP. It is optimized for low latency and low memory usage, and because it uses Ranch for managing connections, Cowboy can easily be embedded in any other application. 
@@ -23,7 +23,7 @@ GET /contacts/:email 		Fetch contact with email
 PUT /contacts/:email   		Update a contact with the JSON on the payload
 DELETE /contacts/:email    	Delete a contact with email
 ```
-For filter purpouses `GET` /contacts accept query params:
+For filter purposes `GET` /contacts accept query params:
 * {field}={value}			  
 * _ord = asc | desc
 * _sort={field}

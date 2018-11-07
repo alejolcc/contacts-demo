@@ -73,3 +73,6 @@ docker-compose up -d postgres #start postgres on docker
 mix test
 ```
 
+Docs
+----
+To more details see the docs on doc/index.html

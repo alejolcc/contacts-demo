@@ -52,6 +52,17 @@ curl --header "Content-Type: application/json"  --request DELETE   http://localh
 
 ```
 
+## Sample Json
+
+```json
+{
+  "surname": "Doe",
+  "phone_number": "+541231231",
+  "name": "Jane",
+  "email": "Jane@example.com"
+}
+    
+```
 
 
 

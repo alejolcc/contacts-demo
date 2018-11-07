@@ -8,4 +8,4 @@ config :contacts, Contacts.Repo,
   hostname: "localhost",
   port: "5566"
 
-config :contacts, garbage_collector_interval: 600_000
+config :contacts, cronn_interval: 600_000

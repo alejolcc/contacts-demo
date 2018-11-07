@@ -8,7 +8,11 @@ defmodule Contacts.Controler do
   alias Contacts.Utils
 
   @doc """
-  List contacts
+  Controler function for `GET /contacts`
+
+  Return a JSON with a list of the contacts
+  ## Status Code
+    `200`
   """
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t() | no_return()
   def index(conn, params) do
@@ -20,8 +24,11 @@ defmodule Contacts.Controler do
   end
 
   @doc """
-  Create a contact
-  Throw 400 if try to create a contact with invalid data
+  Controler function for `POST /contacts`
+
+  Return a JSON with the created contact
+  ## Status Code
+    `200`,`400`
   """
   @spec create(Plug.Conn.t(), map()) :: Plug.Conn.t() | no_return()
   def create(conn, attrs) do
@@ -38,8 +45,11 @@ defmodule Contacts.Controler do
   end
 
   @doc """
-  Get a contact
-  Throw 404 if contact not exists
+  Controler function for `GET /contacts/:email`
+
+  Return a JSON of the contact
+  ## Status Code
+    `200`,`404`
   """
   @spec show(Plug.Conn.t(), binary()) :: Plug.Conn.t() | no_return()
   def show(conn, email) do
@@ -55,9 +65,11 @@ defmodule Contacts.Controler do
   end
 
   @doc """
-  Update a contact
-  Throw 400 if try to update a contact with invalid data
-        404 if contact not exist
+  Controler function for `PUT /contacts/:email`
+
+  Return a JSON with updated contact
+  ## Status Code
+    `200`,`400`,`404`
   """
   @spec update(Plug.Conn.t(), binary(), map()) :: Plug.Conn.t() | no_return()
   def update(conn, email, attrs) do
@@ -76,8 +88,10 @@ defmodule Contacts.Controler do
   end
 
   @doc """
-  Delete a contact
-  Throw 404 if contact not exist
+  Controler function for `DELETE /contacts/:email`
+  
+  ## Status Code
+    `204`,`404`  
   """
   @spec delete(Plug.Conn.t(), binary()) :: Plug.Conn.t() | no_return()
   def delete(conn, email) do

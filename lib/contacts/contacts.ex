@@ -1,14 +1,15 @@
 defmodule Contacts.Contact do
   @moduledoc """
-  Schema for Contact Repo
+  Define the schema for the app
 
-  email: Email of the contact (required, primary_key)\n
-  name: Name of the contact (required)\n
-  surname: Surname of the contact (required)\n
-  phone_number: Movil/Home phone of the contact\n
-  active: Mark the contact to be deleted by the garbage collector (required)
-  
-  """
+  ```
+  email: email of the contact (required, primary_key)
+  name: name of the contact (required)
+  surname: surname of the contact (required)
+  phone_number: movil/home phone of the contact
+  active: mark the contact to be deleted by the garbage collector (required)
+  ```
+"""
 
   use Ecto.Schema
   import Ecto.Changeset
@@ -24,6 +25,7 @@ defmodule Contacts.Contact do
     field :active, :boolean, default: true
   end
 
+  @doc false
   def changeset(data, params \\ %{}) do
     data
     |> cast(params, @fields)

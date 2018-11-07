@@ -31,6 +31,8 @@ defmodule Contacts.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:earmark, "~> 1.2", only: :dev},
+      {:ex_doc, "~> 0.19", only: :dev},
       {:distillery, "~> 2.0"},
       {:postgrex, ">= 0.11.1"},
       {:excoveralls, "~> 0.10", only: :test},

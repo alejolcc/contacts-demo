@@ -1,7 +1,5 @@
 defmodule Contacts.Router do
-  @moduledoc """
-  Router module to send the http request to controler
-  """
+  @moduledoc false
   use Plug.Router
 
   alias Contacts.Controler

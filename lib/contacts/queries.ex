@@ -1,6 +1,6 @@
 defmodule Contacts.Queries do
   @moduledoc """
-  Module to interact with Database through Ecto Repo and Contact schema
+  Perform the queries to database
   """
 
   require Logger
@@ -12,11 +12,13 @@ defmodule Contacts.Queries do
   alias Contacts.Repo
 
   @doc """
-  Create a Contact given a map `attrs`
+  Create a contact given a map of `attrs`
 
   ## Examples
-    create_contact(%{name: "John", email: "john@example.com", surname: "Doe", phone_number: "123"})
+  ```elixir
+  create_contact(%{name: "John", email: "john@example.com", surname: "Doe", phone_number: "54912345678"})
 
+  ```
   """
   @spec create_contact(map()) :: {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
   def create_contact(attrs) do
@@ -27,10 +29,14 @@ defmodule Contacts.Queries do
   end
 
   @doc """
-  Mark the contact with specified `email` to be remove by the garbage collector
+  Mark the contact with specific `email` to be removed by the garbage collector
 
   ## Examples
-    mark_as_delete("john@example.com")
+    
+  ```elixir
+  mark_as_delete("john@example.com")
+
+  ```
 
   """
   @spec mark_as_delete(binary()) :: {:ok, Ecto.Schema.t()} | nil | {:error, Ecto.Changeset.t()}
@@ -56,11 +62,12 @@ defmodule Contacts.Queries do
   end
 
   @doc """
-  Update contact with specified `email` with `attrs` map
+  Update the contact with the `email` specified with the map` attrs`
 
   ## Examples
-    update_contact("john@example.com", %{name: Cameron})
-
+  ```
+  update_contact("john@example.com", %{name: "Cameron", phone_number: "+54912345678"})
+  ```
   """
   @spec update_contact(binary(), map()) :: {:ok, Ecto.Schema.t()} | nil | {:error, Ecto.Changeset.t()}
   def update_contact(email, attrs) do
@@ -77,16 +84,19 @@ defmodule Contacts.Queries do
   end
 
   @doc """
-  Return a list of contacts
-  Accept params for filter and sort
+  Return a list of contacts. Accept `params` to filter and sort
 
   ## Params
-    {field name}: filter the search by field value
-    _ord: allow to order by asc or desc, default: asc
-    _sort: allow especifie a field to sort by, default: `email`
+    **field name**: filter the search by field value
+
+    **_ord**: allow to order by asc or desc, default: asc
+
+    **_sort**: allow to specify a field to sort, default: `email`
 
   ## Example
-    list_contact(%{"_ord" => "desc", "_sort" => "name", "surname" => "Doe"})
+  ```
+  list_contact(%{"_ord" => "desc", "_sort" => "name", "surname" => "Doe"})
+  ```
   """
 
   @spec list_contact(map()) :: [Ecto.Schema.t()] | no_return()
@@ -105,6 +115,11 @@ defmodule Contacts.Queries do
 
   @doc """
   Return the contact specified by `email`
+
+  ## Example
+  ```
+  get_contact("Jhon@example.com")
+  ```
   """
   @spec get_contact(binary()) :: Ecto.Schema.t() | nil | no_return()
   def get_contact(email) do

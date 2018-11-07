@@ -18,16 +18,16 @@ Ecto is a simple wrapper for data store, with a minimum configuration we can sta
 ```
 GET /contacts?{field_name}={field_value}&_ord={ord}&_sort={field_name}
 ```
-_/contacts?surname=Doe&_ord=desc&_sort=email_
+**_/contacts?surname=Doe&\_ord=desc&\_sort=email_**
 
 List contacts of the database 
 
-**Parameters**
-**field_name**      field to filter by
+Parameters    |Description
+------------  | -------------
+field_name | Field to filter by
+field_value | Field value to match
+ord | asc,desc
 
-**field_value**     field value to match
-
-**ord**             order to sort, (asc | desc)
 
 
 ```

@@ -16,47 +16,46 @@ Ecto is a simple wrapper for data store, with a minimum configuration we can sta
 ## API
 
 ```
-GET /contacts?{field_name}={field_value}&_ord={ord}&_sort={field_name}
+GET /contacts?{field_name}={field_value}&_ord={ord}&_sort={field_name}        List contacts of the database 
 ```
-**_/contacts?surname=Doe&\_ord=desc&\_sort=email_**
+_**/contacts?surname=Doe&\_ord=desc&\_sort=email**_
 
-List contacts of the database 
-
-Parameters    |Description
+Query Params  |Description
 ------------  | -------------
 field_name | Field to filter by
 field_value | Field value to match
 ord | asc,desc
 
 
-
-```
-POST /contacts
-```
-_/contacts_
-
-Create a contact
+Return a JSON with a list of user filtered by {field_value} sorted by {field_name} value in {ord} order
 
 
 ```
-GET /contacts/:email
+POST /contacts                                Create a contact   
 ```
-_/contacts/Jhon@example.com_
-
-Fetch contact with email
+_**/contacts**_
 
 
-```
-PUT /contacts/:email
-```
-_/contacts/Jhon@example.com_
-
-Update a contact with the JSON on the payload
 
 
 ```
-DELETE /contacts/:email
+GET /contacts/:email                          Fetch contact with email
 ```
-_/contacts/Jhon@example.com_
+_**/contacts/Jhon@example.com**_
 
-Delete a contact with email
+
+
+
+```
+PUT /contacts/:email                          Update a contact with the JSON on the payload
+```
+_**/contacts/Jhon@example.com**_
+
+
+
+
+```
+DELETE /contacts/:email                       Delete a contact with email
+```
+_**/contacts/Jhon@example.com**_
+

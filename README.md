@@ -75,4 +75,5 @@ mix test
 
 Docs
 ----
-To more details see the docs on doc/index.html
+HexDoc avaliable on 
+**doc/index.html**

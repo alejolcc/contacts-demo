@@ -18,7 +18,7 @@ Ecto is a simple wrapper for data store, with a minimum configuration we can sta
 ```
 GET /contacts?{field_name}={field_value}&_ord={ord}&_sort={field_name}        List contacts of the database 
 ```
-_**/contacts?surname=Doe&\_ord=desc&\_sort=email**_
+ ###### Sample: _**/contacts?surname=Doe&\_ord=desc&\_sort=email**_
 
 Query Params  |Description
 ------------  | -------------
@@ -27,21 +27,61 @@ field_value | Field value to match
 ord | asc,desc
 
 
-Return a JSON with a list of user filtered by {field_value} sorted by {field_name} value in {ord} order
-
+##### Response
+```json
+[
+    {
+        "surname": "Doe",
+        "phone_number": "+54912345678765",
+        "name": "Jhon",
+        "email": "Jhon@example",
+        "active": true
+    }
+]
+```
+---
 
 ```
 POST /contacts                                                                Create a contact   
 ```
-_**/contacts**_
-
+###### _/contacts_
+##### Body
+```json
+{
+"name": "Jhon",
+"surname": "Doe",
+"email": "Jhon@example.com"
+}
+```
+##### Response
+```json
+{
+    "surname": "Doe",
+    "phone_number": null,
+    "name": "Jhon",
+    "email": "Jhon@example.com",
+    "active": true
+}
+```
+---
 
 
 
 ```
 GET /contacts/:email                                                          Fetch contact with email
 ```
-_**/contacts/Jhon@example.com**_
+###### _**/contacts/Jhon@example.com**_
+##### Response
+```json
+{
+    "surname": "Doe",
+    "phone_number": null,
+    "name": "Jhon",
+    "email": "Jhon@example.com",
+    "active": true
+}
+```
+---
 
 
 
@@ -49,7 +89,24 @@ _**/contacts/Jhon@example.com**_
 ```
 PUT /contacts/:email                                                          Update a contact with the JSON on the payload
 ```
-_**/contacts/Jhon@example.com**_
+###### _**/contacts/Jhon@example.com**_
+##### Body
+```json
+{
+	"name": "Jane"
+}
+```
+##### Response
+```json
+{
+    "surname": "Doe",
+    "phone_number": null,
+    "name": "Jane",
+    "email": "Jhon@example.com",
+    "active": true
+}
+```
+---
 
 
 
@@ -57,5 +114,22 @@ _**/contacts/Jhon@example.com**_
 ```
 DELETE /contacts/:email                                                       Delete a contact with email
 ```
-_**/contacts/Jhon@example.com**_
+###### _**/contacts/Jhon@example.com**_
+---
 
+Run on Docker
+----
+
+```sh
+docker-compose up -d --build
+```
+
+This start the app on port 4000 with a postgres database on port 5566
+
+
+Run Test
+----
+```sh
+docker-compose up -d postgres #start postgres on docker
+mix test
+```

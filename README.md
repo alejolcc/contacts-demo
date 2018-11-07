@@ -15,107 +15,46 @@ Ecto is a simple wrapper for data store, with a minimum configuration we can sta
 
 ## API
 
-```
-GET /contacts?{field_name}={field_value}&_ord={ord}&_sort={field_name}        List contacts of the database 
-```
- ###### Sample: _**/contacts?surname=Doe&\_ord=desc&\_sort=email**_
-
-Query Params  |Description
-------------  | -------------
-field_name | Field to filter by
-field_value | Field value to match
-ord | asc,desc
-
-
-##### Response
-```json
-[
-    {
-        "surname": "Doe",
-        "phone_number": "+54912345678765",
-        "name": "Jhon",
-        "email": "Jhon@example",
-        "active": true
-    }
-]
-```
----
 
 ```
-POST /contacts                                                                Create a contact   
+GET /contacts        		List contacts of the database 
+POST /contacts       		Create a contact   
+GET /contacts/:email 		Fetch contact with email
+PUT /contacts/:email   		Update a contact with the JSON on the payload
+DELETE /contacts/:email    	Delete a contact with email
 ```
-###### _/contacts_
-##### Body
-```json
-{
-"name": "Jhon",
-"surname": "Doe",
-"email": "Jhon@example.com"
-}
-```
-##### Response
-```json
-{
-    "surname": "Doe",
-    "phone_number": null,
-    "name": "Jhon",
-    "email": "Jhon@example.com",
-    "active": true
-}
-```
----
+For filter purpouses `GET` /contacts accept query params:
+* {field}={value}			  
+* _ord = asc | desc
+* _sort={field}
 
 
+Method | URI | Status Code
+-------|-----|------------
+`GET`|/contacts|`200`
+`POST`|/contacts|`200` `400`
+`GET`|/contacts/:email|`200` `404`
+`PUT`|/contacts/:email|`200` `400` `404`
+`DELETE`|/contacts/:email|`204` `404`
+
+## Samples
+
+```bash
+curl --header "Content-Type: application/json" --request GET http://localhost:4000/contacts?name=Jhon&_ord=desc&_sort=surname
+
+curl --header "Content-Type: application/json" --request POST --data '{"name":"Jane","surname":"Doe", "phone_number":"+541231231", "email":"Jane@example.com" }' http://localhost:4000/contacts
+
+curl --header "Content-Type: application/json" --request GET http://localhost:4000/contacts/Jane@example.com
+
+curl --header "Content-Type: application/json" --request PUT --data '{"name":"Jane"}' http://localhost:4000/contacts/Jhon@example.com
+
+curl --header "Content-Type: application/json"  --request DELETE   http://localhost:4000/contacts/Jane@example.com
 
 ```
-GET /contacts/:email                                                          Fetch contact with email
-```
-###### _**/contacts/Jhon@example.com**_
-##### Response
-```json
-{
-    "surname": "Doe",
-    "phone_number": null,
-    "name": "Jhon",
-    "email": "Jhon@example.com",
-    "active": true
-}
-```
----
 
 
 
 
-```
-PUT /contacts/:email                                                          Update a contact with the JSON on the payload
-```
-###### _**/contacts/Jhon@example.com**_
-##### Body
-```json
-{
-	"name": "Jane"
-}
-```
-##### Response
-```json
-{
-    "surname": "Doe",
-    "phone_number": null,
-    "name": "Jane",
-    "email": "Jhon@example.com",
-    "active": true
-}
-```
----
-
-
-
-
-```
-DELETE /contacts/:email                                                       Delete a contact with email
-```
-###### _**/contacts/Jhon@example.com**_
----
 
 Run on Docker
 ----
@@ -133,3 +72,4 @@ Run Test
 docker-compose up -d postgres #start postgres on docker
 mix test
 ```
+

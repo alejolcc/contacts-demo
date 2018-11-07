@@ -1,10 +1,8 @@
 # Contacts
-=====
 
 A sample REST app that implement a CRUD API
 
 ## About
-=====
 
 This is a demo project for educational purpouses.
 Implement an application built over Cowboy server through Plug adapters, and Ecto framework like wrappers around the data store. In this case the data store is a Postgres database.
@@ -16,7 +14,7 @@ Plug provides a specification for web application components and adapters for we
 Ecto is a simple wrapper for data store, with a minimum configuration we can start to persist data into the data store.
 
 ## API
-=====
+
 ```
 GET /contacts?{field_name}={field_value}&_ord={ord}&_sort={field_name}
 ```
@@ -24,9 +22,11 @@ _/contacts?surname=Doe&_ord=desc&_sort=email_
 
 List contacts of the database 
 
-# Parameters
+**Parameters**
 **field_name**      field to filter by
+
 **field_value**     field value to match
+
 **ord**             order to sort, (asc | desc)
 
 

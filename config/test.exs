@@ -6,7 +6,9 @@ config :contacts, Contacts.Repo,
   database: "contacts_test",
   username: "postgres",
   password: "postgres",
-  hostname: "localhost"
+  hostname: "localhost",
+  port: "5566"
 
 config :logger, compile_time_purge_level: :debug
 config :contacts, cronn_interval: 60_000
+config :contacts, port: 4001

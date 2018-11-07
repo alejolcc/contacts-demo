@@ -8,3 +8,4 @@ config :contacts, Contacts.Repo,
   hostname: "localhost"
 
 config :contacts, cronn_interval: 600_000
+config :contacts, port: 4001

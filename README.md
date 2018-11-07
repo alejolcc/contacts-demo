@@ -31,7 +31,7 @@ Return a JSON with a list of user filtered by {field_value} sorted by {field_nam
 
 
 ```
-POST /contacts                                Create a contact   
+POST /contacts                                                                Create a contact   
 ```
 _**/contacts**_
 
@@ -39,7 +39,7 @@ _**/contacts**_
 
 
 ```
-GET /contacts/:email                          Fetch contact with email
+GET /contacts/:email                                                          Fetch contact with email
 ```
 _**/contacts/Jhon@example.com**_
 
@@ -47,7 +47,7 @@ _**/contacts/Jhon@example.com**_
 
 
 ```
-PUT /contacts/:email                          Update a contact with the JSON on the payload
+PUT /contacts/:email                                                          Update a contact with the JSON on the payload
 ```
 _**/contacts/Jhon@example.com**_
 
@@ -55,7 +55,7 @@ _**/contacts/Jhon@example.com**_
 
 
 ```
-DELETE /contacts/:email                       Delete a contact with email
+DELETE /contacts/:email                                                       Delete a contact with email
 ```
 _**/contacts/Jhon@example.com**_
 

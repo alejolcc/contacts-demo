@@ -23,7 +23,7 @@ defmodule Contacts.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :postgrex, :ecto, :plug_cowboy],
+      extra_applications: [:prometheus_ex, :prometheus_plugs, :logger, :postgrex, :ecto, :plug_cowboy],
       mod: {Contacts.Application, []}
     ]
   end
@@ -31,6 +31,8 @@ defmodule Contacts.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:prometheus_ex, "~> 3.0"},
+      {:prometheus_plugs, "~> 1.1.1"},
       {:earmark, "~> 1.2", only: :dev},
       {:ex_doc, "~> 0.19", only: :dev},
       {:distillery, "~> 2.0"},

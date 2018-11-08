@@ -1,14 +1,17 @@
 defmodule Contacts.Router do
   @moduledoc false
+  
   use Plug.Router
 
   alias Contacts.Controler
 
+  plug Contacts.WebExporter
   plug :match
   plug Plug.Parsers,  parsers: [:json],
                       pass:  ["application/json"],
                       json_decoder: Poison
   plug :dispatch
+  
 
   get "/contacts" do
     Controler.index(conn, conn.params)

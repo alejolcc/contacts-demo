@@ -4,6 +4,7 @@ defmodule Contacts.Application do
   use Application
 
   def start(_type, _args) do
+    Contacts.WebExporter.setup()
     port = Application.get_env(:contacts, :port)
 
     children = [

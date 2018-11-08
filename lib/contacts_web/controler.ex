@@ -108,13 +108,14 @@ defmodule Contacts.Controler do
   defp handle_error(conn, 404, _) do
     conn
     |> put_resp_header("content-type", "application/json")
-    |> send_resp(404, "Not found")
+    |> send_resp(404, Poison.encode!("Not found"))
   end
 
-  defp handle_error(conn, 400, _errors) do
+  defp handle_error(conn, 400, errors) do
+    err = inspect(Enum.at(errors, 0))
     conn
     |> put_resp_header("content-type", "application/json")
-    |> send_resp(400, "")
+    |> send_resp(400, Poison.encode!(err))
   end
 
 end

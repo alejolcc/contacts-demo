@@ -31,6 +31,7 @@ defmodule Contacts.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:prometheus_ecto, "~> 1.3.0"},
       {:prometheus_ex, "~> 3.0"},
       {:prometheus_plugs, "~> 1.1.1"},
       {:earmark, "~> 1.2", only: :dev},

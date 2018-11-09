@@ -9,6 +9,7 @@ defmodule Contacts.Queries do
   import Ecto.Query, warn: true
 
   alias Contacts.Contact
+  alias Contacts.Instrumenter
   alias Contacts.Repo
 
   @doc """
@@ -22,6 +23,7 @@ defmodule Contacts.Queries do
   """
   @spec create_contact(map()) :: {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
   def create_contact(attrs) do
+    # Instrumenter.inc("alejo")
     Utils.debug "[#{inspect(__MODULE__)}] Creating a contact attrs: #{inspect(attrs)}"
     %Contact{}
     |> Contact.changeset(attrs)

@@ -4,7 +4,10 @@ defmodule Contacts.Application do
   use Application
 
   def start(_type, _args) do
+    # Prometheus
     Contacts.WebExporter.setup()
+    Contacts.Instrumenter.setup()
+
     port = Application.get_env(:contacts, :port)
 
     children = [
